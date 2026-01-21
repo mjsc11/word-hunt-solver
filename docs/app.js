@@ -133,6 +133,21 @@ async function readFileAsText(file) {
     fr.onerror = reject;
     fr.readAsText(file);
   });
+async function loadDictionaryText(minLen) {
+  // 1) If user uploaded a file, use it
+     const file = document.getElementById("dictFile").files[0];
+     if (file) return await readFileAsText(file);
+
+  // 2) If user pasted words, use that
+     const pasted = (document.getElementById("dictText")?.value || "").trim();
+     if (pasted.length > 0) return pasted;
+
+  // 3) Otherwise, fetch the built-in dictionary shipped with the site
+     const res = await fetch("./words.txt", { cache: "no-store" });
+     if (!res.ok) throw new Error("Could not load built-in words.txt. (Is it in docs/?)");
+     return await res.text();
+}
+
 }
 
 document.getElementById("clearBtn").addEventListener("click", () => {
@@ -155,12 +170,9 @@ document.getElementById("solveBtn").addEventListener("click", async () => {
     const gridText = document.getElementById("grid").value;
     const grid = parseGrid(gridText, size);
 
-    const file = document.getElementById("dictFile").files[0];
-    if (!file) throw new Error("Upload a dictionary .txt file first.");
-
     status.textContent = "Loading dictionary...";
-    const dictText = await readFileAsText(file);
-    const words = dictText.split(/\r?\n/).map(w => w.trim().toLowerCase()).filter(w => w.length >= minLen && /^[a-z]+$/.test(w));
+    const dictText = await loadDictionaryText(minLen);
+
 
     status.textContent = `Building trie (${words.length.toLocaleString()} words)...`;
     const trie = new Trie();
