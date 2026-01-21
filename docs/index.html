@@ -1,77 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Word Hunt Solver</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; max-width: 960px; }
-    h1 { margin: 0 0 8px; }
-    .muted { color: #666; font-size: 14px; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 24px;
+      background: #fff;
+      color: #111;
+    }
 
-    .row { display: flex; gap: 16px; flex-wrap: wrap; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; flex: 1; min-width: 320px; }
-    textarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-    input[type="number"] { width: 90px; }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
 
-    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
-    button:hover { background: #f6f6f6; }
+    .subtitle {
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
 
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align: left; vertical-align: top; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.9rem;
+    }
+
+    input[type="number"] {
+      width: 70px;
+      padding: 4px;
+      font-size: 0.9rem;
+    }
+
+    button {
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #f5f5f5;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #eee;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #eee;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+    }
+
+    .mono {
+      font-family: monospace;
+    }
+
+    .muted {
+      color: #777;
+    }
+
+    #status {
+      margin-top: 8px;
+      color: #555;
+    }
   </style>
 </head>
+
 <body>
   <h1>Word Hunt Solver (Browser)</h1>
-  <p class="muted">Type/paste the grid below and click <b>Solve</b>. Uses built-in <span class="mono">words.txt</span> automatically.</p>
+  <div class="subtitle">
+    Paste your grid below. The solver uses a built-in dictionary automatically.
+  </div>
 
-  <div class="row">
-    <div class="card">
-      <h3>Grid</h3>
-      <textarea id="grid" rows="6" class="mono">RNSM
+  <div class="card">
+    <h3>Grid</h3>
+    <textarea id="grid">RNSM
 TDUO
 RASA
 ETHH</textarea>
 
-      <div style="margin-top:10px;">
-        <label>Size: <input id="size" type="number" value="4" min="2" max="10"></label>
-        <label style="margin-left:12px;">Min length: <input id="minLen" type="number" value="3" min="2" max="10"></label>
-      </div>
+    <div class="row">
+      <label>Size:
+        <input id="size" type="number" value="4" />
+      </label>
 
-      <div style="margin-top:10px;">
-        <label>Min score: <input id="minScore" type="number" value="0" min="0" max="50"></label>
-        <label style="margin-left:12px;">Top N: <input id="topN" type="number" value="50" min="0" max="5000"></label>
-      </div>
+      <label>Min length:
+        <input id="minLen" type="number" value="3" />
+      </label>
 
-      <div style="margin-top:10px;">
-        <label><input id="paths" type="checkbox" checked> Show paths</label>
-        <label style="margin-left:12px;"><input id="oneBased" type="checkbox" checked> 1-based coords</label>
-      </div>
+      <label>Min score:
+        <input id="minScore" type="number" value="0" />
+      </label>
 
-      <div style="margin-top:12px;">
-        <button id="solveBtn">Solve</button>
-        <button id="clearBtn" style="margin-left:8px;">Clear Results</button>
-      </div>
-
-      <p id="status" class="muted" style="margin-top:12px;"></p>
+      <label>Top N:
+        <input id="topN" type="number" value="50" />
+      </label>
     </div>
 
-    <div class="card">
-      <h3>Dictionary</h3>
-      <p class="muted">
-        Built-in dictionary is used automatically.
-        No upload needed.
-      </p>
-      <p class="muted">
-        If you ever see an error about <span class="mono">words.txt</span>, it means GitHub Pages can’t find it in <span class="mono">docs/</span>.
-      </p>
+    <div class="row">
+      <label>
+        <input type="checkbox" id="paths" checked />
+        Show paths
+      </label>
+
+      <label>
+        <input type="checkbox" id="oneBased" checked />
+        1-based coords
+      </label>
     </div>
+
+    <div class="row">
+      <button id="solveBtn">Solve</button>
+      <button id="clearBtn">Clear Results</button>
+    </div>
+
+    <div id="status" class="muted"></div>
   </div>
 
-  <div class="card" style="margin-top:16px;">
+  <div class="card">
     <h3>Results</h3>
-    <div id="results"></div>
+    <div id="results" class="mono muted"></div>
   </div>
 
   <script src="./app.js"></script>
