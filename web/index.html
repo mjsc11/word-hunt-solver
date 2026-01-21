@@ -1,0 +1,69 @@
+cat > web/index.html <<'EOF'
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Word Hunt Solver</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; max-width: 900px; }
+    textarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; flex: 1; min-width: 280px; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    button:hover { background: #f6f6f6; }
+    input[type="number"] { width: 90px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align: left; vertical-align: top; }
+    .muted { color: #666; font-size: 14px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  </style>
+</head>
+<body>
+  <h1>Word Hunt Solver (Browser)</h1>
+  <p class="muted">Paste a 4x4 grid (or NxN) and upload a dictionary text file (one word per line). Then click Solve.</p>
+
+  <div class="row">
+    <div class="card">
+      <h3>Grid</h3>
+      <textarea id="grid" rows="6" class="mono">RNSM
+TDUO
+RASA
+ETHH</textarea>
+      <div style="margin-top:10px;">
+        <label>Size: <input id="size" type="number" value="4" min="2" max="10"></label>
+        <label style="margin-left:12px;">Min length: <input id="minLen" type="number" value="3" min="2" max="10"></label>
+      </div>
+      <div style="margin-top:10px;">
+        <label>Min score: <input id="minScore" type="number" value="0" min="0" max="50"></label>
+        <label style="margin-left:12px;">Top N: <input id="topN" type="number" value="50" min="0" max="5000"></label>
+      </div>
+      <div style="margin-top:10px;">
+        <label><input id="paths" type="checkbox" checked> Show paths</label>
+        <label style="margin-left:12px;"><input id="oneBased" type="checkbox" checked> 1-based coords</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Dictionary</h3>
+      <p class="muted">Upload a <span class="mono">.txt</span> wordlist (one word per line). Your mac wordlist is at <span class="mono">/usr/share/dict/words</span>.</p>
+      <input id="dictFile" type="file" accept=".txt,text/plain" />
+      <p class="muted">Tip: Start with a smaller list (10k–200k words) for speed.</p>
+
+      <div style="margin-top:12px;">
+        <button id="solveBtn">Solve</button>
+        <button id="clearBtn" style="margin-left:8px;">Clear Results</button>
+      </div>
+      <p id="status" class="muted" style="margin-top:12px;"></p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h3>Results</h3>
+    <div id="results"></div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
+EOF
