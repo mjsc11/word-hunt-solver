@@ -170,8 +170,11 @@ document.getElementById("solveBtn").addEventListener("click", async () => {
     const gridText = document.getElementById("grid").value;
     const grid = parseGrid(gridText, size);
 
-    status.textContent = "Loading dictionary...";
-    const dictText = await loadDictionaryText(minLen);
+    status.textContent = "Loading built-in dictionary...";
+    const res = await fetch("./words.txt", { cache: "no-store" });
+    if (!res.ok) throw new Error("Missing built-in words.txt in /docs");
+    const dictText = await res.text();
+
 
 
     status.textContent = `Building trie (${words.length.toLocaleString()} words)...`;
