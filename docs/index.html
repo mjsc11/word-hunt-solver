@@ -20,8 +20,7 @@
 </head>
 <body>
   <h1>Word Hunt Solver (Browser)</h1>
-  <p class="muted" style="margin-top:12px;">Or paste/type words here (one per line). If empty and no file is chosen, the built-in dictionary will be used.</p>
-<textarea id="dictText" rows="6" class="mono" placeholder="example&#10;words&#10;go&#10;here"></textarea>
+  <p class="muted">Type/paste the grid. The solver uses a built-in dictionary automatically.</p>
 
   <div class="row">
     <div class="card">
@@ -30,22 +29,49 @@
 TDUO
 RASA
 ETHH</textarea>
+
       <div style="margin-top:10px;">
         <label>Size: <input id="size" type="number" value="4" min="2" max="10"></label>
         <label style="margin-left:12px;">Min length: <input id="minLen" type="number" value="3" min="2" max="10"></label>
       </div>
+
       <div style="margin-top:10px;">
         <label>Min score: <input id="minScore" type="number" value="0" min="0" max="50"></label>
         <label style="margin-left:12px;">Top N: <input id="topN" type="number" value="50" min="0" max="5000"></label>
       </div>
+
       <div style="margin-top:10px;">
         <label><input id="paths" type="checkbox" checked> Show paths</label>
         <label style="margin-left:12px;"><input id="oneBased" type="checkbox" checked> 1-based coords</label>
       </div>
+
+      <div style="margin-top:12px;">
+        <button id="solveBtn">Solve</button>
+        <button id="clearBtn" style="margin-left:8px;">Clear Results</button>
+      </div>
+
+      <p id="status" class="muted" style="margin-top:12px;"></p>
+      <p class="muted" style="margin-top:6px;">
+        Note: make sure <span class="mono">docs/words.txt</span> exists in the repo so the site can load it.
+      </p>
     </div>
 
-    <p class="muted">Using built-in dictionary (no upload needed).</p>
+    <div class="card">
+      <h3>Dictionary</h3>
+      <p class="muted">
+        Built-in dictionary is used automatically.
+        (No uploads, no pasting.)
+      </p>
+      <p class="muted">
+        If results are empty, it usually means <span class="mono">words.txt</span> is missing or not loading.
+      </p>
+    </div>
+  </div>
 
+  <div class="card" style="margin-top:16px;">
+    <h3>Results</h3>
+    <div id="results"></div>
+  </div>
 
   <script src="./app.js"></script>
 </body>
