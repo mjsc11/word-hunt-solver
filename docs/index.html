@@ -5,22 +5,26 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Word Hunt Solver</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; max-width: 900px; }
-    textarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .row { display: flex; gap: 16px; flex-wrap: wrap; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; flex: 1; min-width: 280px; }
-    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
-    button:hover { background: #f6f6f6; }
-    input[type="number"] { width: 90px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align: left; vertical-align: top; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; max-width: 960px; }
+    h1 { margin: 0 0 8px; }
     .muted { color: #666; font-size: 14px; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; flex: 1; min-width: 320px; }
+    textarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    input[type="number"] { width: 90px; }
+
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    button:hover { background: #f6f6f6; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align: left; vertical-align: top; }
   </style>
 </head>
 <body>
   <h1>Word Hunt Solver (Browser)</h1>
-  <p class="muted">Type/paste the grid. The solver uses a built-in dictionary automatically.</p>
+  <p class="muted">Type/paste the grid below and click <b>Solve</b>. Uses built-in <span class="mono">words.txt</span> automatically.</p>
 
   <div class="row">
     <div class="card">
@@ -51,19 +55,16 @@ ETHH</textarea>
       </div>
 
       <p id="status" class="muted" style="margin-top:12px;"></p>
-      <p class="muted" style="margin-top:6px;">
-        Note: make sure <span class="mono">docs/words.txt</span> exists in the repo so the site can load it.
-      </p>
     </div>
 
     <div class="card">
       <h3>Dictionary</h3>
       <p class="muted">
         Built-in dictionary is used automatically.
-        (No uploads, no pasting.)
+        No upload needed.
       </p>
       <p class="muted">
-        If results are empty, it usually means <span class="mono">words.txt</span> is missing or not loading.
+        If you ever see an error about <span class="mono">words.txt</span>, it means GitHub Pages can’t find it in <span class="mono">docs/</span>.
       </p>
     </div>
   </div>
